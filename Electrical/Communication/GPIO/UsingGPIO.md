@@ -1,10 +1,36 @@
 # How to use the GPIO on the Jetson TX2 
 ## McMaster Mars Rover Team
 
+## Setup 
+
+More detailed steps can be found in the jetson-gpio python library
+
+Create a new user group called gpio
+
+    sudo groupadd -f -r gpio
+
+Add yourself to the new group
+
+    sudo usermod -a -G gpio {username}
+
+Activate the rules for GPIO access 99-gpio.rules
+
+    sudo cp 99-gpio.rules /etc/udev/rules.d/
+
+Reboot or reload the udev rules
+
+    sudo udevadm control --reload-rules && sudo udevadm trigger
+
+You should not be able to access the GPIO pins to try sample the sample python code 
+
 ## Using Jetson GPIO Python Library
 
 
-TODO: Finish this doc
+Documentation for the python libraray can be found here:
+
+https://github.com/NVIDIA/jetson-gpio
+
+The repository includes instructions for installing and setting up GPIO on the Jetson TX2
 
 
 ## Using SYSFS interface
