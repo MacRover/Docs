@@ -28,7 +28,7 @@ https://www.jetsonhacks.com/nvidia-jetson-tx2-j21-header-pinout/
 
 where the following image is found:
 
-![GPIOOut.png](./imgs/GPIOOut.png)
+![GPIOOut.png](./imgs/GPIOOutV2.png)
 
 The numbers at the end of 'gpio' are the sysfs mapping to that specific pin. So we use that as X in the Step-by-Step approach below 
 
