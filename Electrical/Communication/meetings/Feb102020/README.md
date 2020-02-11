@@ -23,6 +23,7 @@ ROS is not meant to be a framework with the most features, but rather to support
 #### Additional Readings
 * [ROS Wiki Introduction](http://wiki.ros.org/ROS/Introduction)
 * [ROS Wiki Tutorials](http://wiki.ros.org/ROS/Tutorials)
+* [A Gentle Introduction to ROS](https://www.cse.sc.edu/~jokane/agitr/)  
 
 ### General Knowledge and Applications
 
@@ -49,7 +50,8 @@ Making the bandwidth 2x wider allows you to send 2x more bytes in the same time.
 
 #### Additional Readings:
 * [LoRa Gov Research Article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5038744/)
-* [A Gentle Introduction to ROS](https://www.cse.sc.edu/~jokane/agitr/) 
+* [LoRa Point To Point Research Article](https://arxiv.org/pdf/1909.08300.pdf)
+* [LoRa Sender/Reciever Example using an ESP32](https://randomnerdtutorials.com/esp32-lora-rfm95-transceiver-arduino-ide/)
 
 
 ### The Difference Between LoRa and LoRaWAN
