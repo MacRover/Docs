@@ -21,7 +21,7 @@ ROS (Robot Operating System) is robotics software platform that provides service
 ROS is not meant to be a framework with the most features, but rather to support code reuse in robotics research and development. Reasons to use ROS is that it is light, widely supported, language independent, builtin unit/integration testing, and scales easily. ROS runs on Unix-based platforms, but a port is available for Windows (Although don't)
 
 #### Additional Readings
-    (ROS Wiki)[http://wiki.ros.org/ROS/Introduction]
+(ROS Wiki)[http://wiki.ros.org/ROS/Introduction]
 
 
 ### General Knowledge and Applications
@@ -48,7 +48,7 @@ Factors for data transfer:
 Making the bandwidth 2x wider allows you to send 2x more bytes in the same time. Making the spreading factor 1 step lower allows you to send 2x more bytes at the same time. Lowering the spreading factor makes it more difficult for the reciever to receive a transmission, as it will be more sensitive to noise.
 
 #### Additional Readings:
-     (LoRa Gov Research Article)[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5038744/]
+(LoRa Gov Research Article)[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5038744/]
 
 
 ### The Difference Between LoRa and LoRaWAN
@@ -90,7 +90,7 @@ Comments are important! If you need to write a little snippet to improve perform
 
 ## Ideas
 
-   The best goal is to take the data off the robot and store in a database for each run where we are able to build/use a front end to make the data look pretty and find critical mistakes or improvements. This would be more of the end goal, but requires most of the ground work to be completed beforehand.
+   The goal is to take the data off the robot, store in a database, and display it on a front-end so we can keep track of testing and find critical mistakes/improvements. This would be more of the end goal, but requires most of the ground work to be completed beforehand.
 
 ## Currently Work
 
