@@ -3,7 +3,7 @@
 Summary: Updates and new goals for the 2020 school year.
 
 
-## Merger of Electrical and Communications
+## Merger of Electrical and Software Communication Teams
 
 The main reason why we decided to merge is due to the high amount of overlap in the work required. By merging the teams, we hope to increase productivity and collaboration removing the barrier of communication between the two teams. The software communication's team is still under the software branch, but will be operating on projects and working directly with the electrical communications team.
 
