@@ -1,3 +1,5 @@
+<h2>Ubuntu and ROS Installation</h2>
+
 We will be utilizing ROS Kinetic on Ubuntu 16.04. 
 
 The first step would be to install Ubuntu 16.04 on your machine. I would recommend Dual booting.
@@ -11,15 +13,21 @@ NOTE:
 
 Once you have Ubuntu installed you can now install ROS Kinetic on your machine.
 
-Here is a good resource for installing:
+Here is a good resource for ROS Installation:
 
 http://wiki.ros.org/kinetic/Installation/Ubuntu
 
-ROS Tutorials:
+<h2>ROS Tutorials:</h2>
 
 https://www.edx.org/course/hello-real-world-with-ros-robot-operating-system
 
 https://www.udemy.com/course/ros-for-beginners/
+
+https://drive.google.com/file/d/1gIL8lxaNwVKUE0g8paiWswgLdKBvpRjZ/view?usp=sharing
+
+http://wiki.ros.org/ROS/Tutorials#Beginner_Level
+
+http://wiki.ros.org/ROS/Tutorials#External_Tutorials
 
 https://drive.google.com/file/d/1gIL8lxaNwVKUE0g8paiWswgLdKBvpRjZ/view?usp=sharing
 
