@@ -1,4 +1,4 @@
-#Implementing CAN Bus communication with Victor SPX Motor Controllers:
+<h1>Implementing CAN Bus communication with Victor SPX Motor Controllers: </h1>
 https://phoenix-documentation.readthedocs.io/en/latest/ch08_BringUpCAN.html
 
 To interact with devices on the CAN bus using python use this library: 
