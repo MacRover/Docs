@@ -1,3 +1,8 @@
+<h2> CAN Bus communication Technical Resources </h2>
+
+https://drive.google.com/drive/folders/1te6AMZTjTfA6JJ2Zapu5d2f9G_nPo6H3?usp=sharing
+
+
 <h2>Implementing CAN Bus communication with Victor SPX Motor Controllers: </h2>
 
 https://phoenix-documentation.readthedocs.io/en/latest/ch08_BringUpCAN.html
