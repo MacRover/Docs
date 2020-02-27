@@ -1,0 +1,30 @@
+* How To Use The Black Pill Dev Board (STM32F103C8T6) With Arduino
+
+These boards will have been flashed with the [[https://github.com/Serasidis/STM32_HID_Bootloader][HID 2.2 Bootloader]] to make development easier. It requires no drivers, and no programmer, just a USB cable. The downside is it is a bit slower than using the [[https://github.com/rogerclarkmelbourne/STM32duino-bootloader][STM32duino Bootloader]] (modified from the Maple bootloader), but that requires drivers. If you would like to use that, you'll need an ST-Link V2, and some jumpers.
+
+Here are the steps to setting up your arduino environment to play nicely with the Black Pill.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. Open preferences (PC: /File/ \rightarrow /Preferences/ | Mac: /Arduino/ \rightarrow /Preferences/)
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/1.png]]
+2. Paste https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json into the /Additional Board Manager URL/ box
+ - If there's already something there, put a comma at the end, and then paste.
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/2.png]]
+3. Click /OK/ to close the preferences window
+4. Open /Tools/ \rightarrow /Board:/ \rightarrow /Boards Manager/
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/3.png]]
+5. Type ~STM32~ into the search bar
+6. Find the entry labled /STM32 Cores/ and hit /Install/ and wait for it to finish
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/4.png]]
+7. Click /Close/ to close the Boards Manager
+8. Choose the /Generic STM32F1/ Option under /STM32 Boards/ in /Tools/ \rightarrow /Board:/ 
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/5.png]]
+9. Under /Tools/ \rightarrow /Board Part Number/ choose /Black Pill F103C8/ 
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/6.png]]
+10. Under /Tools/ \rightarrow /U(S)ART Support/ choose /Enabled: (Generic 'Serial')/
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/7.png]]
+11. Under /Tools/ \rightarrow /USB support (if available)/ choose /CDC (generic 'Serial' supersede U(S)ART)/
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/8.png]]
+12. Under /Tools/ \rightarrow /Upload method:/ choose /HID Bootloader 2.2/
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/9.png]]
