@@ -28,3 +28,5 @@ Here are the steps to setting up your arduino environment to play nicely with th
  [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/8.png]]
 12. Under /Tools/ \rightarrow /Upload method:/ choose /HID Bootloader 2.2/
  [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/9.png]]
+
+Now you can try uploading a program! Try the [[https://github.com/MacRover/Docs/blob/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/blink.ino][blink.ino]] file in this directory.
