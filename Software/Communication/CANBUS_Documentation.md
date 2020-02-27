@@ -2,6 +2,8 @@
 
 https://drive.google.com/drive/folders/1te6AMZTjTfA6JJ2Zapu5d2f9G_nPo6H3?usp=sharing
 
+https://canopen.readthedocs.io/en/latest/network.html
+
 
 <h2>Implementing CAN Bus communication with Victor SPX Motor Controllers: </h2>
 
