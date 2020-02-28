@@ -19,11 +19,15 @@ http://wiki.ros.org/kinetic/Installation/Ubuntu
 
 <h2>ROS Tutorials:</h2>
 
-https://www.edx.org/course/hello-real-world-with-ros-robot-operating-system
+ROS Fundamentals PowerPoint:
+
+https://docs.google.com/presentation/d/1PqGRiFxjYUpruk_OYO74CtjBuIlDqR665QG1H4qkXl0/edit?usp=sharing
+
+<h3>Video Links</h3>
 
 https://www.udemy.com/course/ros-for-beginners/
 
-https://drive.google.com/file/d/1gIL8lxaNwVKUE0g8paiWswgLdKBvpRjZ/view?usp=sharing
+<h3>Reading Material</h3>
 
 http://wiki.ros.org/ROS/Tutorials#Beginner_Level
 
@@ -31,7 +35,8 @@ http://wiki.ros.org/ROS/Tutorials#External_Tutorials
 
 https://drive.google.com/file/d/1gIL8lxaNwVKUE0g8paiWswgLdKBvpRjZ/view?usp=sharing
 
-The edx link is free of charge; however, it only runs from Jan 15, 2020 until Feb 26, 2020 (for 6 weeks).
+https://docs.google.com/presentation/d/1PqGRiFxjYUpruk_OYO74CtjBuIlDqR665QG1H4qkXl0/edit?usp=sharing
+
 
 The udemy course can be accessed through Mohit's Mars Rover Udemy account along with another ROS course.
 
