@@ -21,7 +21,7 @@ Reboot or reload the udev rules
 
     sudo udevadm control --reload-rules && sudo udevadm trigger
 
-You should not be able to access the GPIO pins to try sample the sample python code 
+You should now be able to access the GPIO pins to try sample the sample python code 
 
 ## Using Jetson GPIO Python Library
 
