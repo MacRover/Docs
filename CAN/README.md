@@ -124,23 +124,34 @@ CAN controller comes pre-tested at 1-Mbps CAN PHY
 Features:
 
 * CAN protocol version 2.0A, version 2.0B and ISO 11898-1:2006/11898-1:2015
-** Dual Clock Source FM-PLL designs
-** 16, 32, 64, 128 Message Objects (configurable)
-** Each message has it's own identifier mask
-** Programmable FIFO mode
-** Programmable loop-back mode for self-test
+
+  -   Dual Clock Source FM-PLL designs
+
+  -   16, 32, 64, 128 Message Objects (configurable)
+
+  -   Each message has it's own identifier mask
+
+  -   Programmable FIFO mode
+
+  -   Programmable loop-back mode for self-test
 
 * Parity check for Message RAM (optional)
-** Maskable Interrupt
-** MA support, automatic Message Object increment (not sure what is MA)
-** Power-Down support
+
+  -   Maskable Interrupt
+  -   MA support, automatic Message Object increment (not sure what is MA)
+  -   Power-Down support
 
 * Supports TT CAN
-** TTCAN Level 0,1,2
-** Time Mark Interrupts
-** Stop Watch
-** Watchdog Timer
-** Synchronization to external events
+
+  -   TTCAN Level 0,1,2
+
+  -   Time Mark Interrupts
+
+  -   Stop Watch
+
+  -   Watchdog Timer
+
+  -   Synchronization to external events
 
 -------------------------------------
 | Signal Name | type  | Description |
@@ -212,7 +223,7 @@ Hook up one transceiver to the CAN 0 interface pins on the Jetson TX2 to the CAN
 
 The CAN pins are found on the J26 extension, not the J21 (labeled on the board).  
 
-<img src="https://docs.fabo.io/jetson/JetPack3.2/TX2/setup/img/J26-2.png" alt="Pinout Diagram" style="zoom:20%;" />
+<img src="https://docs.fabo.io/jetson/JetPack3.2/TX2/setup/img/J26-2.png" alt="Pinout Diagram" style="zoom:18%;" />
 
 ![https://i.imgur.com/nPUhhxz.png](https://i.imgur.com/nPUhhxz.png)
 
