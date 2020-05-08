@@ -5,30 +5,30 @@ These boards will have been flashed with the [[https://github.com/Serasidis/STM3
 Here are the steps to setting up your arduino environment to play nicely with the Black Pill.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/1.png
 1. Open preferences (PC: /File/ \rightarrow /Preferences/ | Mac: /Arduino/ \rightarrow /Preferences/)
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/1.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/1.png]]
 2. Paste https://github.com/stm32duino/BoardManagerFiles/raw/master/STM32/package_stm_index.json into the /Additional Board Manager URL/ box
  - If there's already something there, put a comma at the end, and then paste.
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/2.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/2.png]]
 3. Click /OK/ to close the preferences window
 4. Open /Tools/ \rightarrow /Board:/ \rightarrow /Boards Manager/
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/3.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/3.png]]
 5. Type ~STM32~ into the search bar
 6. Find the entry labled /STM32 Cores/ and hit /Install/ and wait for it to finish
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/4.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/4.png]]
 7. Click /Close/ to close the Boards Manager
 8. Choose the /Generic STM32F1/ Option under /STM32 Boards/ in /Tools/ \rightarrow /Board:/ 
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/5.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/5.png]]
 9. Under /Tools/ \rightarrow /Board Part Number/ choose /Black Pill F103C8/ 
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/6.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/6.png]]
 10. Under /Tools/ \rightarrow /U(S)ART Support/ choose /Enabled: (Generic 'Serial')/
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/7.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/7.png]]
 11. Under /Tools/ \rightarrow /USB support (if available)/ choose /CDC (generic 'Serial' supersede U(S)ART)/
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/8.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/8.png]]
 12. Under /Tools/ \rightarrow /Upload method:/ choose /HID Bootloader 2.2/
- [[https://raw.githubusercontent.com/MacRover/Docs/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/media/9.png]]
+ [[https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Black%20Pill/media/9.png]]
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Now you can try uploading a program! Try the [[https://github.com/MacRover/Docs/blob/master/Electrical/Communication/LoRa/STM32F103C8T6%20Black%20Pill/blink.ino][blink.ino]] file in this directory.
+Now you can try uploading a program! Try the [[https://github.com/MacRover/Docs/blob/master/LoRa/STM32F103C8T6%20Black%20Pill/blink.ino][blink.ino]] file in this directory.
