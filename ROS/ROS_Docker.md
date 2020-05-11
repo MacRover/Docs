@@ -2,6 +2,8 @@
 
 Updated: May 11, 2020
 
+Note: Python2 used in docker ROS image
+
 ## Docker Install
 
 For Ubuntu the general steps to install are outlined here: https://docs.docker.com/engine/install/ubuntu/, but a quick rundown of steps are provided below.
