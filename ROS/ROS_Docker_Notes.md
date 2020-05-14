@@ -3,6 +3,7 @@
 * Assumes usage of the docker setup
 * Installs with ROS using Python 2
 * Assumes installed "full-desktop"
+* Unfortunately ROS keep throwing errors while getting rviz or rqt running. I tried debugging this for a long time, but have given up(for now) and decided to move to simply using the terminal applications instead. The error, gdb output, and my settings are provided below. This could possibly not be an issue for you so skip to the `rosrun` section to learn more!
 * This file is created while following ROS Tutorials (Most of the tutorial is unfortunately stripped directly unless a section is particularly unclear)
 
 ## Docker Startup
@@ -365,6 +366,71 @@ This provides what the node publishers, subscriptions, and services
 
 `rosrun` provides the ability to run a node directly from a package (without knowing the path to the package)
 
-RUN INTO PROBLEMS
+### Graphics Problems Encontered
 
-CURRENTLY DEBUGGING
+At this point I had encountered a problem that I am not sure how to fix for my specific situation:
+
+I was passing through my intel graphics for accelerated graphics and documentation of the steps below can be fond here:
+
+http://wiki.ros.org/docker/Tutorials/Docker
+http://wiki.ros.org/docker/Tutorials/GUI
+http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration
+http://wiki.ros.org/action/fullsearch/rviz/Troubleshooting?action=fullsearch&context=180&value=linkto%3A%22rviz%2FTroubleshooting%22
+
+For the following we need to ensure that the DISPLAY is forwarded to the docker container so we can run rviz and rqt.
+
+Allow access for the docker container to access the screen:
+```
+# xhost +
+```
+Please remember to run the following command when you finished testing:
+```
+# xhost -
+```
+There is a much safer way to provide the display to the docker container, but this was for testing. 
+
+The docker container command had to be modified to work with passing the display
+```
+# sudo docker run -it --rm --env "DISPLAY" --env="QT_X11_NO_MITSHM=1" --device=/dev/dri:/dev/dri --net=host --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --name ros_main_test osrf/ros:melodic-desktop-full
+```
+Update and install mesa-utils and qt5
+```
+# sudo apt update
+# sudo apt install mesa-utils qt5-default
+```
+I can run glxgears
+```
+# glxgears
+```
+which from the `rviz` troubleshooting page means that forwarding from the docker container is working correctly, but trying to run `rosrun rviz rviz` or `rqt` provides the following error
+```
+[ INFO] [1589416901.083238902]: rviz version 1.13.9
+[ INFO] [1589416901.083274061]: compiled against Qt version 5.9.5
+[ INFO] [1589416901.083283928]: compiled against OGRE version 1.9.0 (Ghadamon)
+[ INFO] [1589416901.091102985]: Forcing OpenGl version 0.
+dbus[1472]: The last reference on a connection was dropped without closing the connection. This is a bug in an application. See dbus_connection_unref() documentation for details.
+Most likely, the application was supposed to call dbus_connection_close(), since this is a private connection.
+  D-Bus not built with -rdynamic so unable to print a backtrace
+zsh: abort (core dumped)  rosrun rviz rviz
+```
+By searching around and manually downloading all the tools, rebuilding ros in a different docker container, and rechecking all dependencies I was still unable to get `rviz` and `rqt` to work.
+
+There could be an error since I was forwarding my intel graphics since my nvidia graphics are disabled for battery saving reasons, but the links provided above provide steps to follow for nvidia graphics as well.
+
+```
+Current setting:
+	XPS 9570 (4K, intel i7, GTX 1050)
+	OS: Ubuntu 19.04 (Disco)
+```
+
+Possible soltuions would be to look at:
+
+https://hub.docker.com/r/moveit/moveit/tags for melodic
+https://moveit.ros.org/install/docker/
+
+https://github.com/pierrekilly/docker-ros-box
+
+Or simply a software install which is what I am trying to avoid
+
+
+The rest of the tutorial will cover nodes and their communication. Since this does not rely on rqt or rviz, this should be fine.
