@@ -477,6 +477,13 @@ We will continue acting like this problem will be resolved.
 
 **The rest of this tutorial is being run on Arch Linux with ROS Melodic with Python 3**
 
+Workspace rebuilt with the following command for python3
+
+```
+# catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
+```
+
+
 ##  Topics
 
 Lets see an example to see how this can be used.
@@ -743,9 +750,7 @@ We can instead pipe the output from one command to the other to get the same out
 # rostopics type /turtle1/cmd_vel | rosmsg show
 ```
 
-
-
-### rqt_plot
+### Using rqt_plot
 
 We can graph the data from the topics we want by running `rqt_plot`
 
@@ -759,20 +764,389 @@ Then in the "Topic" bar type the topic you would like to plot the data form. If 
 
  The turtle is currently doing circles on the screen so if we zoom the x and y coordinates out, we should see sine graphs. We can also plot the angle theta which would look like a sawtooth graph as we reset back to 0 degrees every 2*pi
 
+
 ## ROS Services and Parameters
 
+Services are a way such that nodes can talk to each other. Services allow nodes to **request** and recieve a **response**.
+
+### Using rosservice
+
+`rosservice` can easily attach to ROS's client/service framework with services.
+
+The commands that are available can be shown through `rosservice help`
+
+```
+	rosservice args:	print service arguments
+	rosservice call:	call the service with the provided args
+	rosservice find:	find services by service type
+	rosservice info:	print information about service
+	rosservice list:	list active services
+	rosservice type:	print service type
+	rosservice uri: 	print service ROSRPC uri
+```
+
+#### list
+
+To see the services available from all nodes currently active
+```
+# rosservice list
+```
+
+If we were running the turtlesim node, then we would be able to see the following services available from the turtle
+
+```
+	/clear
+	/kill
+	/reset
+	/spawn
+	/turtle1/set_pen
+	/turtle1/teleport_absolute
+	/turtle1/teleport_relative
+	/turtlesim/get_loggers
+	/turtlesim/set_logger_level
+```
+
+#### type
+
+To check the type of messages are being sent over the service we may use
+```
+# rosservice type <service>
+```
+
+If we wanted to check the type of data being sent over the `/clear` service
+
+```
+# rosservice type /clear
+```
+
+```
+	std_srvs/Empty
+```
+
+This means that when a service call is made, no data is sent. It sends no data when making a **request** and it receives no data when receiving a **response**.
+
+#### call
+
+We can call a service using
+
+```
+# rosservice call <service> <msg/args>
+```
+
+So we can call the clear service without any msg/args
+
+```
+# rosservice call /clear
+```
+
+If the turtle service was just begun (the turtle did not move) this command would seem to do nothing, but if we were to make the turtle create circles with the command below
 
 
+```
+# rostopic pub -r 1 /turtle1/cmd_vel geometry_msgs/Twist -- '[2,0,0]' '[0,0,-1]'
+```
+
+We can see the trail of the circles being drawn. Now if we run the rosservice call to clear
+
+```
+# rosservice call /clear
+```
+
+The old trail should vanish. In other words, this service clears the background.
 
 
+If we had a service we wanted to interact with, but we did not know how the messages are being sent, we can simply figure out the type of message, identify how that message looks, and then make a call with the correct message/args.
+
+If we wanted to change the spawn position of the turtle
+
+```
+# rosservice type /spawn | rossrv show
+```
+
+```
+	float32 x
+	float32 y
+	float32 theta
+	string name
+	---
+	string name
+```
+
+From this message returned we can see that we need to pick an x,y,theta to spawn a new turtle and a string that would be its name. The string is optional as it can also generate it's own name!
 
 
+It should be noted that `rosservice` and `rossrv` are two different commands!
+
+```
+# rosservice call /spawn -- 2 2 0.2 ""
+```
+
+And just like that we now have two turtles in the turtlesim.
+
+### Using rosparam 
+
+`rosparam` allows the storage and manipulation of data on the ROS Parameter Server and can store integers, floats, boolean, dicts, and lists.
+
+`rosparam` uses YAML as it is simple and easy to read.
 
 
+To see all the commands available with `rosparam` we can run `rosparam help`
+
+```
+	Commands:
+	rosparam set	set parameter
+	rosparam get	get parameter
+	rosparam load	load parameters from file
+	rosparam dump	dump parameters to file
+	rosparam delete	delete parameter
+	rosparam list	list parameter names
+```
+
+#### list
+
+To see all the parameters currently available on the parameter server
+```
+# rosparam list
+```
+
+```
+	/background_b
+	/background_g
+	/background_r
+	/rosdistro
+	/roslaunch/uris/host_ea__32821
+	/roslaunch/uris/host_ea__40985
+	/rosversion
+	/run_id
+	/turtlesim1/background_b
+	/turtlesim1/background_g
+	/turtlesim1/background_r
+	/turtlesim2/background_b
+	/turtlesim2/background_g
+	/turtlesim2/background_r
+```
+
+#### get/set
+
+To change a parameter stored on the parameter server we can use
+
+```
+# rosparam set <param name> <args>
+```
+
+To view a parameter stored on the parameter server we can use
+
+```
+# rosparam get <param name> <args>
+```
+
+If we wanted to change the background then we can change the colors
+
+```
+# rosparam set /background_r 200
+```
+
+Nothing happens, but we need to now reset the background so we call the /clear service
+
+```
+# rosservice call /clear
+```
+
+To see the contents of a certain parameter such as /background_g
+
+```
+# rosparam get /background_g
+```
 
 
+To see the contents of the entire parameter server we can run
+
+```
+# rosparam get /
+```
+
+#### dump/load
+
+You can dump and load the parameters through
+
+```
+# rosparam dump <filename> <namespace>
+# rosparam load <filename> <namespace>
+```
+
+So if we wanted to dump all the parameters set into a YAML file
+
+```
+# rosparam dump params.yaml
+```
+
+If we wanted to load these dumped parameters into a new namespace (namepsace: copy)
+```
+# rosparam load params.yaml copy
+```
+
+We can now see the parameters under the new namespace
+
+```
+# rosparam get /copy
+```
+
+## Using rqt_console and rqt_logger_level
+
+The `rqt_console` attaches to ROS logging framework to display the output from nodes
+
+```
+# rosrun rqt_console rqt_console
+```
+
+The `rqt_logger_level` allows the user to change the verbosity of nodes as they run
+
+```
+# rosrun rqt_logger_level rqt_logger_level
+```
+
+The logger levels are as follows
+
+```
+    Debug
+    Info
+    Warn
+    Error
+    Fatal
+```
+
+If we are running a turtlesim node and hit a wall, the node would be publishing warnings with severity "Warn" which would be shown on the console if the logger level was "Warn" or higher ("Debug" or "Info").
 
 
+## roslaunch and Launch Files
+
+### roslaunch
+
+`roslaunch` starts nodes as outlined in the launch file
+
+```
+# roslaunch <package> <launch file>
+```
+
+Since we already have the ROS package we created earlier we can cd to that directory
+
+```
+# roscd beginner_tutorials
+```
+
+For the previous command to work, we should have used source on the setup file of the catkin workspace
+
+```
+# source ./devel/setup.bash
+```
+
+Now try the previous command again as it should work.
+
+Once in the directory of beginner_tutorials we can make a launch directory
+
+```
+# mkdir launch && cd launch
+```
+
+Although not required to create the launch directory for launch files, it is considered as good practice.
+
+
+### The Launch File
+
+We can create a launch file called `turtlemimic.launch` with the following
+
+```
+<launch>
+	<group ns="turtlesim1">
+	       <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+	</group>
+	
+	<group ns="turtlesim2">
+	       <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+	</group>
+
+	<node pkg="turtlesim" name="mimic" type="mimic">
+	      <remap from="input" to="turtlesim1/turtle1"/>
+	      <remap from="output" to="turtlesim2/turtle1"/>
+	</node>
+</launch>
+```
+
+#### Launch File Breakdown
+
+The openning tag is shown below
+```
+<launch>
+```
+
+With the launch tag, the file is identified as a launch file
+
+```
+	<group ns="turtlesim1">
+	       <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+	</group>
+	
+	<group ns="turtlesim2">
+	       <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+	</group>
+```
+We start two groups under namespaces `turtlesim1` and `turtlesim2` and each turtlesim npde is called `sim`.
+Notice that we can have two nodes with the same name as long as they are in different namespaces.
+
+```
+	<node pkg="turtlesim" name="mimic" type="mimic">
+	      <remap from="input" to="turtlesim1/turtle1"/>
+	      <remap from="output" to="turtlesim2/turtle1"/>
+	</node>
+```
+
+This snippet of code above starts a `mimic` node named `mimic` in the turtlesim package. It remaps it's input to `turtlesim1/turtle1` and its output to `turtlesim2/turtles1`. This means that all the data from the topic `turtlesim1/turtle1` is also being routed to `turtlesim2/turtle1`.
+
+Now we can use roslaunch to execute the instructions in the launch file
+
+```
+# roslaunch beginner_tutorials turtlemimic.launch
+```
+
+The command above will create two instances of the turtlesim nodes
+
+Since we know the mimic node is also running in the background, if we send a message to `turtlesim1/turtle1` both turtles should be moving
+
+```
+# rostopic pub -r 1 /turtlesim1/turtle1/cmd_vel geometry_msgs/Twist -- '[2,0,0]' '[0,0,-1.3]'
+```
+
+With the command above we can see that both turtles are moving in circles.
+
+By looking at rqt_graph we can see how the data is moving
+
+[rosgraph6.png]
+
+
+## RosEd
+
+To edit a file in a certain package we can run
+
+```
+# rosed <package name> <file name>
+```
+
+It does support tab completion to ensure it's simpler to use.
+
+To ensure the correct editor is used, make sure to export the correct "EDITOR" environment variable
+
+```
+# export EDITOR='emacs -nw'
+```
+
+To check what the editor is currently set to we can echo the environment variable
+
+```
+# echo $EDITOR
+```
+
+
+## Creating a Msg and Srv
 
 
 
