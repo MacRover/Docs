@@ -1,7 +1,8 @@
 # ROS Notes
 
 * Assumes usage of the docker setup
-* Installs with ROS using Python 2
+* Pro-tip before starting: use a terminal with tabs!
+* Installs with ROS using Python 2 (After error Python 3)
 * Assumes installed "full-desktop"
 * Unfortunately ROS keep throwing errors while getting rviz or rqt running. I tried debugging this for a long time, but have given up(for now) and decided to move to simply using the terminal applications instead. The error, gdb output, and my settings are provided below. This could possibly not be an issue for you so skip to the `rosrun` section to learn more!
 * This file is created while following ROS Tutorials (Most of the tutorial is unfortunately stripped directly unless a section is particularly unclear)
@@ -359,14 +360,51 @@ We can generate more information about a node by
 ```
 # rosnode info /rosout
 ```
-
 This provides what the node publishers, subscriptions, and services
+
+Lastly, we can also see if the node is up or not by using `ping`
+
+```
+# rosnode ping rosout
+```
+The output is given below
+```
+xmlrpc reply from http://HOSTNAME:34959/	time=88.354588ms
+xmlrpc reply from http://HOSTNAME:34959/	time=1.179457ms
+...
+```
 
 ### Ros Run
 
 `rosrun` provides the ability to run a node directly from a package (without knowing the path to the package)
 
-### Graphics Problems Encontered
+If we run 
+```
+# rosrun turtlesim turtlesim_node
+```
+we have now started running a new node meaning that it should be listed in the node list
+
+```
+# rosnode list
+```
+The output is given below
+```
+    /rosout
+    /turtlesim
+```
+
+If we try to run a node that is already running, we will get an error
+```
+# roscore
+```
+```
+RLException: roscore cannot run as another roscore/master is already running. 
+Please kill other roscore/master processes before relaunching.
+The ROS_MASTER_URI is http://HOSTNAME:11311/
+The traceback for the exception was written to the log file
+```
+
+### Graphics Problems Encountered
 
 At this point I had encountered a problem that I am not sure how to fix for my specific situation:
 
@@ -434,3 +472,320 @@ Or simply a software install which is what I am trying to avoid
 
 
 The rest of the tutorial will cover nodes and their communication. Since this does not rely on rqt or rviz, this should be fine.
+
+We will continue acting like this problem will be resolved. 
+
+**The rest of this tutorial is being run on Arch Linux with ROS Melodic with Python 3**
+
+##  Topics
+
+Lets see an example to see how this can be used.
+
+---------------------
+
+If we run turtlesim in one terminal we get a turtle stuck at the center of the screen. 
+
+```
+# rosrun turtlesim turtlesim_node
+```
+
+We need a way for some other ROS node to tell the turtle how to drive. So we know that the turtlesim package has the `turtle_teleop_key` node
+
+```
+# rosrun turtlesim turtle_teleop_key
+```
+With this we now see the following text appear on the screen
+
+```bash
+	Reading from keyboard
+	---------------------------
+	Use arrow keys to move the turtle.
+```
+So as we keep the window running `turtle_teleop_key` running we are able to control the turtle on the screen via the arrow keys. Something to note is that if we change the focus to the `turtlesim_node` window and try to control it using arrow keys, it does not work. This means that inputs running from the terminal running `turtle_teleop_key` was being passed to the `turtlesim_node`.
+
+--------------------
+
+### ROS Data Flow 
+
+The `turtlesim_node` and the `turtlesim_teleop_key` are both ROS nodes that are communicating over a ROS  **Topic** . The `turtlesim_teleop_key` is **publishing** key strokes and the `turtlesim_node` **subscribes** to the same topic to receive the key stroke data.
+
+### rqt_graph
+
+We can see this talk about publishing and subscribing by using `rqt_graph`
+
+
+
+<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgraph1.png" alt="rosgraph1" style="zoom: 67%;" />
+
+
+
+Installing the package and running `rqt_graph` package 
+
+```
+# sudo apt install ros-melodic-rqt
+# sudo apt install ros-melodic-rqt-common-plugins
+```
+
+We can simply run `rqt_graph`or we can start it through `rosrun`
+
+```
+# rqt_graph
+```
+
+```
+# rosrun rqt_graph rqt_graph
+```
+
+By going this we get the graph shown above
+
+In the graph above it shows that the `teleop_turtle` node is publishing to the topic `turtle1/cmd_vel` and the `turtlesim` node is listening for data being sent over the topic `turtle1/cmd_vel`
+
+In this we can also change the options so as to plot the topic as it's own box and this is shown below
+
+<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgraph2.png" alt="rosgraph2" style="zoom:67%;" />
+
+We can see that `turtle1` is a topic that contains data about the `cmd_vel` 
+
+### rostopic
+
+#### list
+
+If we wanted to have a list of all the topics we can run 
+
+``` 
+# rostopic list
+```
+
+```
+    /rosout
+    /rosout_agg
+    /statistics
+    /turtle1/cmd_vel
+    /turtle1/color_sensor
+    /turtle1/pose
+```
+
+If we wanted more detail then we can run in verbose mode
+
+```
+# rostopic list -v
+```
+
+Verbose mode provides all the currently subscribed topics and the publishing topics
+
+```
+    Published topics:
+     * /rosout_agg [rosgraph_msgs/Log] 1 publisher
+     * /rosout [rosgraph_msgs/Log] 3 publishers
+     * /turtle1/pose [turtlesim/Pose] 1 publisher
+     * /turtle1/color_sensor [turtlesim/Color] 1 publisher
+     * /turtle1/cmd_vel [geometry_msgs/Twist] 1 publisher
+
+    Subscribed topics:
+     * /rosout [rosgraph_msgs/Log] 1 subscriber
+     * /turtle1/cmd_vel [geometry_msgs/Twist] 1 subscriber
+     * /statistics [rosgraph_msgs/TopicStatistics] 1 subscriber
+```
+
+#### type
+
+We know that messages are being sent from the node to the publisher, but what if we are interested in the type?
+
+To get the type of messages being sent over a certain topic 
+
+```
+# rostopic type <topic>
+```
+
+In our specific case, if we wanted to see the data being sent over the topic `/turtle1/cmd_vel`
+
+```
+# rostopic type /turtle1/cmd_vel
+```
+
+We get the following
+
+```
+	geometry_msgs/Twist
+```
+
+Although not shown here, we can also see what data does this message type contain using `rosmsg show`. By doing this we are able to see that the type contains 2 arrays of float 64 numbers, 1 array of 3 float 64 numbers define the x, y, z of the linear movement and the other array of  3 floats define the x, y, z of the the angular movement.
+
+#### echo
+
+We can actually see the messages being sent using `echo`
+
+```
+# rostopic echo <topic>
+```
+
+In our case this would be
+
+```
+# rostopic echo /turtle1/cmd_vel
+```
+
+```
+    ---
+    linear: 
+      x: 2.0
+      y: 0.0
+      z: 0.0
+    angular: 
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    ---
+```
+
+
+
+By doing this we can see that the messages from this topic is constantly being updated and shown whenever any new data is sent over the topic. This means that we have a node that is also listening to this topic now. If we refresh the rqt_graph then we are able to see that we have another node attached to the topic 
+
+<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgrap3.png" alt="rosgrap3" style="zoom:75%;" />
+
+
+
+So we see that rostopic echo actually creates a node and subscribes to the topic to listen to the data
+
+#### pub
+
+We can use the following command to publish data to a topic 
+
+```
+# rostopic pub <frequency> <topic> <msg_type> <msg/args>
+```
+
+In our case we need to send one packet of data over the topic `/turtle1/cmd_vel`, the message type is `geometry_msgs/Twist` and the message would be `'[2, 0,0]' '[0,0,1.9]'`
+
+```
+# rostopic pub -1 /turtle1/cmd_vel geometry_msgs/Twist -- '[2,0,0]' '[0,0,1.9]'
+```
+
+The double dash ` -- ` is required to tell the option parser the rest of the text does not contain any options. This is required to ensure that the option parser does not take negative numbers as an option. If we knew that none of the messages contained negative numbers (not in quotes) then we could run it without the `--` and it would still work.
+
+If we wanted to constantly send a message at a specific rate then we can use the `r` argument 
+
+```
+# rostopic pub -r 1 /turtle1/cmd_vel geometry_msgs/Twist -- '[2,0,0]' '[0,0,1.9]'
+```
+
+From now we see that this will constantly be sending data to the turtle every second. Since data is being sent through the topic we can see on the terminal window running `rostopic echo /turtle1/cmd_vel` the following is shown every second
+
+```
+    --- 
+    linear: 
+      x: 2.0
+      y: 0.0
+      z: 0.0
+    angular: 
+      x: 0.0
+      y: 0.0
+      z: 1.9
+    ---
+```
+
+As is a constant in this section, we now look to see a new node publishing data to both the turtle and our `echo` node listening to the topic on the rqt_graph
+
+<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgraph4.png" alt="rosgraph4" style="zoom:75%;" /> 
+
+
+
+Looking a bit more confusing, but if we show can also show the topic structure in rqt_graph to provide an additional level of abstraction
+
+<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgraph5.png" alt="rosgraph5" style="zoom:75%;" />
+
+This looks much more cleaner!
+
+#### hz
+
+We can use the following command to determine the rate at which data is being published
+
+```
+# rostopic hz <topic> 
+```
+
+We are aware that `turtlesim_node` publishes data to `/turtle1/pose` let's find the rate at which it publishes the data
+
+```
+# rostopic hz /turtle/pose
+```
+
+```
+    subscribed to [/turtle1/pose]
+    average rate: 62.506
+        min: 0.015s max: 0.017s std dev: 0.00044s window: 56
+    average rate: 62.504
+        min: 0.015s max: 0.017s std dev: 0.00047s window: 118
+    average rate: 62.491
+        min: 0.015s max: 0.017s std dev: 0.00046s window: 181
+```
+
+
+
+#### Piping rostopics
+
+If we know the type of data being sent over a topic, it's not fun to type
+
+```
+# rostopic type /turtle1/cmd_vel
+```
+
+See the return value, then plug that value into `rosmsg show`
+
+```
+# rosmsg show geometry_msgs/Twist
+```
+
+We can instead pipe the output from one command to the other to get the same output as follows
+
+```
+# rostopics type /turtle1/cmd_vel | rosmsg show
+```
+
+
+
+### rqt_plot
+
+We can graph the data from the topics we want by running `rqt_plot`
+
+```
+# rosrun rqt_plot rqt_plot
+```
+
+Then in the "Topic" bar type the topic you would like to plot the data form. If for example we wanted to plot the x and y data of the turtles position, we can plot the x and y cords from the topic `turtle1/pose`
+
+<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rqt_graph.png" alt="rqt_graph"  />
+
+ The turtle is currently doing circles on the screen so if we zoom the x and y coordinates out, we should see sine graphs. We can also plot the angle theta which would look like a sawtooth graph as we reset back to 0 degrees every 2*pi
+
+## ROS Services and Parameters
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
