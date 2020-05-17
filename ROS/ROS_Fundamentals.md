@@ -1,13 +1,18 @@
-# ROS Notes
+# ROS Fundamentals 
 
-* Assumes usage of the docker setup
+* ~~Assumes usage of the docker setup~~
 * Pro-tip before starting: use a terminal with tabs!
 * Installs with ROS using Python 2 (After error Python 3)
 * Assumes installed "full-desktop"
 * Unfortunately ROS keep throwing errors while getting rviz or rqt running. I tried debugging this for a long time, but have given up(for now) and decided to move to simply using the terminal applications instead. The error, gdb output, and my settings are provided below. This could possibly not be an issue for you so skip to the `rosrun` section to learn more!
+* Once we are able to figure out how to get Docker running, this tutorial should still work as is, but untill then a system install is recommended.
 * This file is created while following ROS Tutorials (Most of the tutorial is unfortunately stripped directly unless a section is particularly unclear)
 
-## Docker Startup
+## Description
+
+These notes outline how ROS works along with the different commands available to enahance development. The following notes will outline how to write code for ROS utilizing the code/knowledge found in these notes.
+
+## Docker Startup (Error Later -- Install On System Instead)
 
 Run docker image
 
@@ -1074,7 +1079,7 @@ We can create a launch file called `turtlemimic.launch` with the following
 
 #### Launch File Breakdown
 
-The openning tag is shown below
+The opening tag is shown below
 ```
 <launch>
 ```
@@ -1148,14 +1153,316 @@ To check what the editor is currently set to we can echo the environment variabl
 
 ## Creating a Msg and Srv
 
+A **msg** file  is simple text files that describe the fields of a ROS message. They generate the source code for messages in different languages.
 
+An **srv** file describes a service. It is composed of a **request** and **response**.
 
+A msg file is stored in the `msg` directory of the package, and srv  files are stored in the `srv` directory.
 
+To be brief, msgs are simple text files with a field type and field name per line, and a srv file contains data about msgs sending and receiving. 
 
+The field types you can use are:
 
+```
+* int8, int16, int32, int64, (uint equivalent)
+* float32, float64
+* string
+* time, duration
+* other msg files 
+* variable-length array and fiexed-length array
+```
 
+A header contains a timestamp and coordinate frame information that are commonly used in ROS. It is common to find the first line of a msg file to have `Header header`
 
+msg file:
 
+```
+Header header
+string child_frame_id
+geometry_msgs/PoseWithCovariance pose
+geometry_msgs/TwistWithCovariance twist
+```
+
+srv files are exactly like msg file except they are separated into two parts: a request and response. The request is all the information before the `---` and the response is everything after it. 
+
+```
+int64 A
+int64 B
+...
+int64 Z
+---
+int64 Sum
+```
+
+So we will be sending 26 variables of type `int64`  as our request and the response is an `int64` variable named Sum. 
+
+### Using msg
+
+#### Creating a msg
+
+```
+# roscd beginner_tutorials
+# mkdir msg
+# echo "int64 num" > msg/Num.msg
+```
+
+The `Num` message contains one `int64` type variable aptly name `num`.
+
+You can also create a more complicated  msg file as shown below
+
+```
+string first_name
+string last_name
+uint8 age
+uint32 score
+```
+
+Now we need to edit the `package.xml` to ensure that these msg files are properly handled. Therefore, we add the following
+
+```
+<build_depend>message_generation</build_depend>
+<exec_depend>message_runtime</exec_depend>
+```
+
+We can see that the package `message_generation` is only required during the build stage and `message_runtime` is used at runtime. Now that the metadata is properly setup, we need to ensure that catkin is going to build the package correctly as well! 
+
+Edit the CMakeLists.txt and perform the following actions:
+
+* Add `message_generation` under `find_package`
+* Add `message_runtime` under `CATKIN_DEPENDS` in `catkin_package`
+* Setup the `Num.msg` under `FILES` in `add_message_files`
+* Ensure the `generate_messages` function is called
+
+Add `message_generation` to `find_package`
+
+```
+find_package(catkin REQUIRED COMPONENTS
+   roscpp
+   rospy
+   std_msgs
+   message_generation
+)
+```
+
+Add `message_runtime` under `CATKIN_DEPENDS` in `catkin_package`
+
+```
+catkin_package(
+  ...
+  CATKIN_DEPENDS message_runtime ...
+  ...)
+```
+
+Setup `Num.msg` under `FILES` in `add_message_files`
+
+```
+add_message_files(
+  FILES
+  Num.msg
+)
+```
+
+Ensure the `generate_messages` function is called
+
+```
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+```
+
+Make sure that you are indeed able to see the changes
+
+```
+# rosmsg show beginner_tutorials/Num
+```
+
+If you know the message, but don't know which package it is defined
+
+```
+# rosmsg show Num
+```
+
+```
+	[beginner_tutorials/Num]:
+	int64 num
+```
+
+If that does not work then make sure that you have the correct tags and have the environment setup correctly
+
+```
+# source ~/catkin_ws/devel/setup.bash
+```
+
+### Using srv
+
+#### Creating a srv
+
+```
+# roscd beginner_tutorials
+# mkdir srv
+```
+
+We can use `roscp` to copy over an srv from another package.
+
+```
+# roscp <package name> <source> <destination>
+```
+
+If we wanted to use the `AddTwoInts.srv` from `rospy_tutorials` 
+
+```
+# roscp rospy_tutorials AddTwoInts.srv srv/AddTwoInts.srv
+```
+
+The same `message_generation` and `message_runtime` setup in the `package.xml` must be followed as shown for msg. Additionally in the CMakeLists.txt the we must add `message_generation` under `find_package` as shown for msg. Also, we need to make sure that the `AddTwoInts.srv` is added under `add_service_files` 
+
+```
+add_service_files(
+	FILES
+	AddTwoInts.srv
+)
+```
+
+If not been done already, ensure that `std_msgs` is listed under `generate_messages`
+
+#### Using rossrv
+
+To make sure ROS is able to see the srv files we can use the `rossrv` command
+
+```
+# rossrv show <service type>
+```
+
+So in our case the service type would be `AddTwoInts` under `beginner_tutorials`
+
+```
+# rossrv show beginner_tutorials/AddTwoInts
+```
+
+We should see the following as a response
+
+```
+	int64 a
+	int64 b
+	---
+	int64 sum
+```
+
+If we know the service, but don't know the package where the service is defined we can use
+
+```
+# rossrv show AddTwoInts
+```
+
+```
+	[beginner_tutorials/AddTwoInts]:
+	int64 a
+	int64 b
+	---
+	int64 sum
+	
+	[rospy_tutorials/AddTwoInts]:
+	int64 a
+	int64 b
+	---
+	int64 sum
+```
+
+Now move to the root directory of the project (catkin_ws)
+
+```
+# cd ~/catkin_ws
+```
+
+Build the package 
+
+```
+# catkin_make install
+```
+
+This should work with no issues, but if any errors pop-up then make sure you followed the steps correctly (do the steps from msgs and srv) and ensure all packages/tags are correctly spelt.
+
+At the end of the build process, you should get
+
+```
+[100%] Built target beginner_tutorials_generate_messages
+```
+
+Any msg file in the msg directory will generate code for use in all supported languages.
+
+Headers for languages are shown as follows:
+
+C++:
+
+```
+~/catkin_ws/devel/include/beginner_tutorials
+```
+
+Python 2.7:
+
+```
+~/catkin_ws/devel/lib/python2.7/dist-packages/beginner_tutorials/msg
+```
+
+Python 3.8:
+
+```
+~/catkin_ws/devel/lib/python3.8/site-packages/beginner_tutorials/msg
+```
+
+Lisp:
+
+```
+~/catkin_ws/devel/share/common-lisp/ros/beginner_tutorials/msg
+```
+
+The srv files are located in the same directories so you may import them as well.
+
+## Help
+
+We can always use the help argument of a command to bring up usage options
+
+```
+# rosmsg -h
+```
+
+Brings up the following text on the usage of the `rosmsg` command
+
+```
+    Commands:
+      rosmsg show     Show message description
+      rosmsg list     List all messages
+      rosmsg md5      Display message md5sum
+      rosmsg package  List messages in a package
+      rosmsg packages List packages that contain messages
+```
+
+For sub-commands you may also check their usage option
+```
+# rosmsg show -h
+```
+
+This shows the usage of `rosmsg show`
+
+```
+    Usage: rosmsg show [options] <message type>
+
+    Options:
+      -h, --help  show this help message and exit
+      -r, --raw   show raw message text, including comments
+```
+
+## Review
+
+* rospack = ros + package: provides information related to ROS packages
+* roscd = ros + cd: changes directory to a ROS package or stack
+* rosls = ros + ls: lists file in a ROS package
+* roscp = ros + cp: copies files from/to a ROS package
+* rosmsg = ros + msg: provides information related to ROS message definitions
+* rossrv = ros + srv: provides information related to ROS service definitions
+* catkin_make: compiles a ROS package
+* ros_make (undocumented in these notes, but used as a replacement for catkin)
 
 
 
