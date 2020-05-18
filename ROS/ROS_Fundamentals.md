@@ -527,7 +527,7 @@ We can see this talk about publishing and subscribing by using `rqt_graph`
 
 
 
-<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgraph1.png" alt="rosgraph1" style="zoom: 67%;" />
+![rosgraph1](/ROS/Images/rosgraph1.png)
 
 
 
@@ -554,7 +554,7 @@ In the graph above it shows that the `teleop_turtle` node is publishing to the t
 
 In this we can also change the options so as to plot the topic as it's own box and this is shown below
 
-<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgraph2.png" alt="rosgraph2" style="zoom:67%;" />
+![rosgraph2](/ROS/Images/rosgraph2.png)
 
 We can see that `turtle1` is a topic that contains data about the `cmd_vel` 
 
@@ -654,7 +654,7 @@ In our case this would be
 
 By doing this we can see that the messages from this topic is constantly being updated and shown whenever any new data is sent over the topic. This means that we have a node that is also listening to this topic now. If we refresh the rqt_graph then we are able to see that we have another node attached to the topic 
 
-<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgrap3.png" alt="rosgrap3" style="zoom:75%;" />
+![rosgrap3](/ROS/Images/rosgrap3.png)"
 
 
 
@@ -699,13 +699,13 @@ From now we see that this will constantly be sending data to the turtle every se
 
 As is a constant in this section, we now look to see a new node publishing data to both the turtle and our `echo` node listening to the topic on the rqt_graph
 
-<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgraph4.png" alt="rosgraph4" style="zoom:75%;" /> 
+![rosgraph4](/Docs/ROS/Images/rosgraph4.png)
 
 
 
 Looking a bit more confusing, but if we show can also show the topic structure in rqt_graph to provide an additional level of abstraction
 
-<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rosgraph5.png" alt="rosgraph5" style="zoom:75%;" />
+![rosgraph5](/ROS/Images/rosgraph5.png)
 
 This looks much more cleaner!
 
@@ -765,7 +765,7 @@ We can graph the data from the topics we want by running `rqt_plot`
 
 Then in the "Topic" bar type the topic you would like to plot the data form. If for example we wanted to plot the x and y data of the turtles position, we can plot the x and y cords from the topic `turtle1/pose`
 
-<img src="/home/ea/Dropbox/MarsRover/Docs/ROS/Images/rqt_graph.png" alt="rqt_graph"  />
+![rqt_graph](/ROS/Images/rqt_graph.png)
 
  The turtle is currently doing circles on the screen so if we zoom the x and y coordinates out, we should see sine graphs. We can also plot the angle theta which would look like a sawtooth graph as we reset back to 0 degrees every 2*pi
 
@@ -1125,7 +1125,7 @@ With the command above we can see that both turtles are moving in circles.
 
 By looking at rqt_graph we can see how the data is moving
 
-[rosgraph6.png]
+![rosgraph6.png](/ROS/Images/rosgraph6.png)
 
 
 ## RosEd
