@@ -72,10 +72,19 @@ generate_messages(DEPENDENCIES std_msgs)
 so we invoke this to generate messages for C++.
 
 
+Once all the code is written and the CMakeFiles.txt has been properly edited we may begin to build the project. Return to the root directory of the project `catkin_ws` and then run `catkin_make install`
+
+To run each of the executables created we use
+```
+# rosrun <project_name> <node_name>
+```
+
 
 Last Edited: May 17, 2020
 
+
 Source: http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28c%2B%2B%29
+
 
 -- Elston Almeida
 
