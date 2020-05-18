@@ -1,5 +1,7 @@
 # Publisher & Subscriber Example (C++)
 
+![header](/ROS/Images/PubSubBanner.png)
+
 In this folder you can find the example of a publisher and subscriber written in C++. 
 
 A more detailed explanation of the code for `listener.cpp`  is provided in `listener_explained.md`
