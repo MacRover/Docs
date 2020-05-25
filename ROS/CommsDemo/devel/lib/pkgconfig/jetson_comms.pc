@@ -1,0 +1,8 @@
+prefix=/home/ea/catkin2_ws/devel
+
+Name: jetson_comms
+Description: Description of jetson_comms
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

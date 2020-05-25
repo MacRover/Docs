@@ -1,0 +1,5 @@
+<launch>
+	<node pkg="jetson_comms" name="lora_raw" type="lora_raw.py"/>
+	<node pkg="jetson_comms" name="can_raw" type="can_raw.py"/>
+	<node pkg="jetson_comms" name="wifi_raw" type="wifi_raw.py"/>
+</launch>

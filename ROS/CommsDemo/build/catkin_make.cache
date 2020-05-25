@@ -1,0 +1,2 @@
+jetson_comms:jetson_sensors
+-DCATKIN_DEVEL_PREFIX=/home/ea/catkin2_ws/devel -DCMAKE_INSTALL_PREFIX=/home/ea/catkin2_ws/install -G Unix Makefiles
