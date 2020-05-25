@@ -1,5 +1,7 @@
 # Communication Demo
 
+![CommsDemoBannerImage](/ROS/CommsDemo/Images/rosgraph.png)
+
 *Note: Using Python3*
 
 To launch the demo ensure you are in the catkin2_ws folder 
