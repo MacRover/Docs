@@ -1,3 +1,8 @@
+* Flashing instructions
+These can be found [[https://github.com/MacRover/Docs/blob/master/LoRa/STM32F103C8T6%20Black%20Pill/program.org][here]]
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 * How To Use The Black Pill Dev Board (STM32F103C8T6) With Arduino
 
 These boards will have been flashed with the [[https://github.com/Serasidis/STM32_HID_Bootloader][HID 2.2 Bootloader]] to make development easier. It requires no drivers, and no programmer, just a USB cable. The downside is it is a bit slower than using the [[https://github.com/rogerclarkmelbourne/STM32duino-bootloader][STM32duino Bootloader]] (modified from the Maple bootloader), but that requires drivers. If you would like to use that, you'll need an ST-Link V2, and some jumpers.
@@ -41,9 +46,3 @@ Here are the steps to setting up your arduino environment to play nicely with th
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Now you can try uploading a program! Try the [[https://github.com/MacRover/Docs/blob/master/LoRa/STM32F103C8T6%20Black%20Pill/blink.ino][blink.ino]] file in this directory.
-
-
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-* Flashing instructions
-These can be found [[https://github.com/MacRover/Docs/blob/master/LoRa/STM32F103C8T6%20Black%20Pill/program.org][here]]
