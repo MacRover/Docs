@@ -1,0 +1,43 @@
+* How to upload a bootloader to an STM32F103C8T6 Black Pill
+
+For this you will need:
+  - The black pill
+  - An STLINK/V2 (the chinese knockoffs work fine)
+    - NOTE: this can be done with other programmers/debuggers as well, but I will only be including instructions for how to upload with the STLINK/V2 here
+  - A computer with:
+    - The [[https://my.st.com/content/my_st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-programmers/stsw-link004.html][STLINK Utility]] installed
+      - NOTE: if you don't want to make an account to download this software, [[http://bugmenot.com/view/st.com][BugMeNot]] can be used to find a premade junk account
+    - The firmware you wish to upload
+      - In this case I'll use the [[https://github.com/Serasidis/STM32_HID_Bootloader][hid\under{}generic\under{}pb12.bin]] firmware file. This is the one being used at the McMaster Mars Rover Team
+
+--------------------------------------------------------------------------------------------------------
+
+1. Plug the BOOT0 and BOOT1 jumpers to ground (this is marked as BX- on the black pill)
+  - Note the long sides of the jumper should be parallel to the programming header and not perpendicular
+2. Connect the programming header on the black pill to the STLink
+3. Setup your STLink
+  1. Plug the STLink into your computer
+  2. Plug-in the ports:
+    | SWDIO\rightarrow{}DIO |
+    | GND\rightarrow{}GND   |
+    | SWCLK\rightarrow{}CLK |
+    | 3.3V\rightarrow{}3V3  |
+    
+4. Open up the STLink Utility
+5. Open Target\rightarrow{}Settings
+  1. Under Connection settings\rightarrow{}Port select SWD
+  2. Under Connection settings\rightarrow{}Mode:
+    - Choose Connect Under Reset
+    - Select Enable debug in Low power mode
+  3. Under Reset Mode choose Hardware Reset
+  4. Click OK
+6. Click the connect button [[./program_media/connect.png]]
+7. Choose Target\rightarrow{}Program & Verify
+  1. Make sure Start address is 0x08000000
+  2. Under File path, choose the Browse button and select hid_generic_pb12.bin
+  3. Uncheck everything under Extra options
+  4. Check Full Flash memory Checksum
+  5. Click Start
+7. Click the disconnect button [[./program_media/disconnect.png]]
+8. ???
+9. Profit

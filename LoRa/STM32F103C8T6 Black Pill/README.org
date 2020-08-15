@@ -32,3 +32,9 @@ https://raw.githubusercontent.com/MacRover/Docs/master/LoRa/STM32F103C8T6%20Blac
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Now you can try uploading a program! Try the [[https://github.com/MacRover/Docs/blob/master/LoRa/STM32F103C8T6%20Black%20Pill/blink.ino][blink.ino]] file in this directory.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+* Flashing instructions
+These can be found here: [[flashing url][flashing urls]]
