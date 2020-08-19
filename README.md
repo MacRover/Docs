@@ -1,7 +1,2 @@
-# Documentation
-
-This repository contains the documentation for each team and subteam
-
-
-
-
+# Deprecated
+These docs have been replaced with more up-to-date resources found on the McMaster Mars Rover OneNote
